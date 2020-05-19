@@ -1,0 +1,11 @@
+{
+  "name": "biology-tests",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "robertistok <robertistok94@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "dotenv": "^8.2.0",
+    "pg-promise": "^10.5.6"
+  }
+}
