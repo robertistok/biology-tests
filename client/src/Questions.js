@@ -1,8 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { gql } from "apollo-boost";
 import { useQuery } from "@apollo/react-hooks";
 
 import QuestionCard from "./QuestionCard";
+
+import { useActiveQuestion } from "./context/activeQuestion";
 
 const GET_QUESTIONS = gql`
   {
@@ -19,43 +21,31 @@ const GET_QUESTIONS = gql`
 
 const Questions = () => {
   const { data: { questions } = {} } = useQuery(GET_QUESTIONS);
-  const [activeQuestion, setActiveQuestion] = useState();
-  const [selectedAnswers, setSelectedAnswers] = useState([]);
+  const {
+    state: activeQuestion,
+    changeActiveQuestion,
+    updateAnswer,
+    validateQuestion,
+    completeQuestion,
+  } = useActiveQuestion();
 
   useEffect(() => {
-    if (questions) {
-      const questionToSet = questions[0];
-      setActiveQuestion({
-        ...questionToSet,
-        completed: false,
-        validated: false,
-        index: 0,
-      });
+    if (questions && !activeQuestion.initialized) {
+      changeActiveQuestion(questions[0]);
     }
-  }, [questions]);
+  }, [questions, changeActiveQuestion, activeQuestion]);
 
   useEffect(() => {
     if (activeQuestion && activeQuestion.completed) {
       if (activeQuestion.index !== questions.length - 1) {
-        setActiveQuestion({
-          ...questions[activeQuestion.index + 1],
-          index: activeQuestion.index + 1,
-          completed: false,
-          validated: false,
-        });
-        setSelectedAnswers([]);
+        changeActiveQuestion(questions[activeQuestion.index + 1]);
       }
     }
-  }, [activeQuestion, questions]);
+  }, [activeQuestion, questions, changeActiveQuestion]);
 
-  const handleOnAnswerClick = ({ id, selected }) => {
+  const handleOnAnswerClick = ({ id, shouldSelect }) => {
     if (!activeQuestion.validated) {
-      setActiveQuestion({
-        ...activeQuestion,
-        answers: activeQuestion.answers.map((a) =>
-          a.id === id ? { ...a, selected: !selected } : a
-        ),
-      });
+      updateAnswer({ id, shouldSelect });
     }
   };
 
@@ -64,17 +54,16 @@ const Questions = () => {
       .filter(({ valid }) => Boolean(valid))
       .every(({ selected }) => Boolean(selected));
 
-    setActiveQuestion({ ...activeQuestion, isValid, validated: true });
+    validateQuestion({ ...activeQuestion, isValid, validated: true });
   };
 
   const handleOnNextClick = () => {
-    setActiveQuestion({ ...activeQuestion, completed: true });
+    completeQuestion();
   };
 
   return (
     <QuestionCard
       {...activeQuestion}
-      selectedAnswers={selectedAnswers}
       handleOnAnswerClick={handleOnAnswerClick}
       handleOnValidationClick={handleOnValidationClick}
       handleOnNextClick={handleOnNextClick}

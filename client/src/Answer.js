@@ -19,7 +19,7 @@ const Answer = ({
       reveal={shouldRevealValidity.toString()}
       gutterBottom
       selected={selected}
-      onClick={() => onClick({ id, selected })}
+      onClick={() => onClick({ id, shouldSelect: !selected })}
     >
       {prefix}. {content}
     </Root>
