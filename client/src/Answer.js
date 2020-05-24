@@ -29,8 +29,9 @@ const Root = styled(Typography)`
   && {
     cursor: pointer;
     padding: 15px;
-    margin-bottom: 0px;
-    width: 100%;
+    margin: 1px 0px;
+    box-shadow: 0 1px 3px -3px black;
+
     background-color: ${(props) => {
       const valid = props.valid === "true";
       const reveal = props.reveal === "true";

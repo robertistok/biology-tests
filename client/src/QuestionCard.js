@@ -21,9 +21,9 @@ export default function QuestionCard({
   return (
     <StyledCard>
       <CardContent>
-        <Typography variant="h5" color="textSecondary" gutterBottom>
+        <StyledTitle variant="h5" color="textSecondary" gutterBottom>
           {content}
-        </Typography>
+        </StyledTitle>
         {answers.map((answer, index) => (
           <Answer
             key={answer.id}
@@ -34,10 +34,11 @@ export default function QuestionCard({
           />
         ))}
       </CardContent>
-      <hr />
       <StyledCardActions>
         <Button
-          size="small"
+          size="medium"
+          color="primary"
+          fullWidth
           onClick={!validated ? handleOnValidationClick : handleOnNextClick}
         >
           {!validated ? "Check" : "Next"}
@@ -56,9 +57,17 @@ const StyledCardActions = styled(CardActions)`
 const StyledCard = styled(Card)`
   && {
     margin-top: 100px;
+    min-height: 350px;
 
     @media screen and (max-width: 500px) {
-      margin-top: 50px;
+      margin-top: 30px;
     }
+  }
+`;
+
+const StyledTitle = styled(Typography)`
+  && {
+    text-decoration: underline;
+    margin-bottom: 20px;
   }
 `;
