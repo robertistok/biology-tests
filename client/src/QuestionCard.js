@@ -19,7 +19,7 @@ export default function QuestionCard({
   handleOnNextClick,
 }) {
   return (
-    <Card>
+    <StyledCard>
       <CardContent>
         <Typography variant="h5" color="textSecondary" gutterBottom>
           {content}
@@ -43,12 +43,22 @@ export default function QuestionCard({
           {!validated ? "Check" : "Next"}
         </Button>
       </StyledCardActions>
-    </Card>
+    </StyledCard>
   );
 }
 
 const StyledCardActions = styled(CardActions)`
   && {
     justify-content: center;
+  }
+`;
+
+const StyledCard = styled(Card)`
+  && {
+    margin-top: 100px;
+
+    @media screen and (max-width: 500px) {
+      margin-top: 50px;
+    }
   }
 `;
