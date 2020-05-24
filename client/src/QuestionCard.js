@@ -18,6 +18,10 @@ export default function QuestionCard({
   handleOnValidationClick,
   handleOnNextClick,
 }) {
+  if (!content) {
+    return null;
+  }
+
   return (
     <StyledCard>
       <CardContent>
