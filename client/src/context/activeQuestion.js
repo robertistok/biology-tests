@@ -1,5 +1,7 @@
 import React, { useReducer, useMemo, useContext } from "react";
 
+import { shuffleArray } from "../lib/helpers";
+
 const CountContext = React.createContext();
 
 const CHANGE_ACTIVE_QUESTION = "CHANGE_ACTIVE_QUESTION";
@@ -12,6 +14,7 @@ function reducer(state, action) {
     case CHANGE_ACTIVE_QUESTION: {
       return {
         ...action.payload,
+        answers: shuffleArray(action.payload.answers),
         initialized: true,
         completed: false,
         validated: false,
