@@ -15,6 +15,7 @@ const Answer = ({
     <Root
       color="textSecondary"
       valid={valid.toString()}
+      env={process.env.NODE_ENV}
       reveal={shouldRevealValidity.toString()}
       gutterBottom
       selected={selected}
@@ -31,6 +32,11 @@ const Root = styled(Typography)`
     padding: 15px;
     margin: 1px 0px;
     box-shadow: 0 1px 3px -3px black;
+
+    text-decoration: ${(props) =>
+      props.env === "development" && props.valid === "true"
+        ? "underline"
+        : "initial"};
 
     background-color: ${(props) => {
       const valid = props.valid === "true";

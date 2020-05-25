@@ -15,10 +15,9 @@ function reducer(state, action) {
       return {
         ...action.payload,
         answers: shuffleArray(action.payload.answers),
-        initialized: true,
         completed: false,
         validated: false,
-        index: !isNaN(state.index) ? state.index + 1 : 0,
+        index: state ? state.index + 1 : 0,
       };
     }
 
@@ -49,7 +48,7 @@ function reducer(state, action) {
 }
 
 export const ActiveQuestionProvider = (props) => {
-  const [state, dispatch] = useReducer(reducer, { initialized: false });
+  const [state, dispatch] = useReducer(reducer, null);
   const value = useMemo(() => [state, dispatch], [state]);
 
   return <CountContext.Provider value={value} {...props} />;
