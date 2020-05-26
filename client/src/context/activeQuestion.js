@@ -2,7 +2,7 @@ import React, { useReducer, useMemo, useContext } from "react";
 
 import { shuffleArray } from "../lib/helpers";
 
-const CountContext = React.createContext();
+const ActiveQuestionContext = React.createContext();
 
 const CHANGE_ACTIVE_QUESTION = "CHANGE_ACTIVE_QUESTION";
 const UPDATE_ANSWER = "UPDATE_ANSWER";
@@ -17,7 +17,9 @@ function reducer(state, action) {
         answers: shuffleArray(action.payload.answers),
         completed: false,
         validated: false,
-        index: state ? state.index + 1 : 0,
+        index: !isNaN(action.payload.index)
+          ? action.payload.index
+          : state.index + 1,
       };
     }
 
@@ -51,14 +53,16 @@ export const ActiveQuestionProvider = (props) => {
   const [state, dispatch] = useReducer(reducer, null);
   const value = useMemo(() => [state, dispatch], [state]);
 
-  return <CountContext.Provider value={value} {...props} />;
+  return <ActiveQuestionContext.Provider value={value} {...props} />;
 };
 
 export const useActiveQuestion = () => {
-  const context = useContext(CountContext);
+  const context = useContext(ActiveQuestionContext);
 
   if (!context) {
-    throw new Error(`useCount must be used within a CountProvider`);
+    throw new Error(
+      `useActiveQuestion must be used within a ActiveQuestionProvider`
+    );
   }
   const [state, dispatch] = context;
 
