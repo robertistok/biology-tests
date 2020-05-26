@@ -79,7 +79,7 @@ const Questions = () => {
 
   useEffect(() => {
     if (questions && !activeQuestion) {
-      changeActiveQuestion(shuffleArray(questions)[0]);
+      changeActiveQuestion(questions[0]);
     }
   }, [questions, changeActiveQuestion, activeQuestion]);
 
