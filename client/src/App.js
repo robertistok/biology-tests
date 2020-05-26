@@ -4,6 +4,7 @@ import Container from "@material-ui/core/Container";
 
 import Questions from "./Questions";
 import { ActiveQuestionProvider } from "./context/activeQuestion";
+import { StatsHistoryProvider } from "./context/statsHistory";
 
 import client from "./lib/graphqlClient";
 
@@ -11,9 +12,11 @@ function App() {
   return (
     <ApolloProvider client={client}>
       <Container maxWidth="sm">
-        <ActiveQuestionProvider>
-          <Questions />
-        </ActiveQuestionProvider>
+        <StatsHistoryProvider>
+          <ActiveQuestionProvider>
+            <Questions />
+          </ActiveQuestionProvider>
+        </StatsHistoryProvider>
       </Container>
     </ApolloProvider>
   );
