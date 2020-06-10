@@ -48,7 +48,7 @@ const Root = styled(Typography)`
           return valid ? "#23DC3D" : "#F08080";
         } else {
           if (valid) {
-            return "#FFEFD5";
+            return "#FF8C00";
           }
         }
       } else if (selected) {
